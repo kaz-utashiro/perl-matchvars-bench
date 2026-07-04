@@ -1,0 +1,33 @@
+name: blead
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          repository: perl/perl5
+          ref: blead
+      - name: build
+        run: |
+          ./Configure -des -Dusedevel >/dev/null
+          make -j4 >/dev/null 2>&1
+          ./perl -v | grep version
+      - name: bench
+        run: |
+          ./perl -Ilib -MTime::HiRes=time -e '
+            my $s = (chr(0x3042) . chr(0x3044) . chr(0x3046) . " abc ") x 12_000;
+            my($t, $c, $e1, $e2);
+            $t = time; $c = 0;
+            while ($s =~ /abc/g) { my($b, $e) = ($-[0], $+[0]); $c++ }
+            $e1 = time - $t;
+            $t = time; $c = 0;
+            while ($s =~ /abc/gp) { my($b, $e) = (pos($s) - length(${^MATCH}), pos($s)); $c++ }
+            $e2 = time - $t;
+            printf "RESULT ref=blead perl=%vd matchvars=%.4f pos=%.4f ratio=%.0fx matches=%d\n",
+              $^V, $e1, $e2, $e1 / ($e2 || 1e-9), $c;
+          ' | tee -a "$GITHUB_STEP_SUMMARY"
