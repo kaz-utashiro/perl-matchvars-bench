@@ -18,7 +18,10 @@ Related: [perl-substr-bench](https://github.com/kaz-utashiro/perl-substr-bench)
 ## Results
 
 12k matches on a string mixing multibyte and ASCII characters,
-ubuntu-latest (see [bench.yml](.github/workflows/bench.yml)):
+ubuntu-latest
+([full run](https://github.com/kaz-utashiro/perl-matchvars-bench/actions/runs/28723361695),
+[blead run](https://github.com/kaz-utashiro/perl-matchvars-bench/actions/runs/28723362174);
+see [bench.yml](.github/workflows/bench.yml)):
 
 | perl | `@-`/`@+` (sec) | pos() (sec) | ratio |
 |---|---:|---:|---:|
@@ -26,7 +29,8 @@ ubuntu-latest (see [bench.yml](.github/workflows/bench.yml)):
 | 5.14.4 – 5.16.3 | 2.9 – 3.3 | 0.15 | 20x |
 | 5.18.4 | 6.5 | 0.068 | 95x |
 | 5.20.3 – 5.36.3 | 5.7 – 8.4 | 0.003 | ~2000x |
-| 5.38.0 – 5.42.2 | 0.46 – 0.57 | 0.003 | 150 – 190x |
+| 5.38.0 – 5.42.2 | 0.46 – 0.59 | 0.003 | 150 – 190x |
+| blead 2026-07-05 (built from source) | 0.59 | 0.003 | 222x |
 
 The `pos()` path was also slow originally, was half-fixed in 5.18 and
 fully fixed in 5.20, and has been fast ever since.  The match
