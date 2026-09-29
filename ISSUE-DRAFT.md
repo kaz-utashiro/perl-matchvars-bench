@@ -18,8 +18,10 @@ The equivalent information obtained through `pos()` is two orders of
 magnitude cheaper, because `pos()` converts through the SV's UTF-8
 position cache (`sv_pos_b2u`), which works fine.
 
-This is not a recent regression; it has been this way for a long time
-(I first measured it in the 5.12–5.16 era).  Related to but distinct
+This is not a recent regression; it has been this way for a long
+time.  I first measured it and wrote it up in 2014, twelve years ago,
+on the perls available then (5.10–5.16), and the behaviour has not
+changed since — only the constant factor.  Related to but distinct
 from #24531, which is about the opposite conversion direction.
 
 ## Steps to Reproduce
@@ -106,7 +108,7 @@ because of this, and has done so for over a decade.  Any code which
 naively collects match positions with `@-`/`@+` over a large
 multibyte string pays a quadratic cost without any indication of why.
 
-I also wrote this up in Japanese, with the same measurements:
+The 2014 write-up, in Japanese, is still online:
 https://qiita.com/kaz-utashiro/items/2facc87ea9ba25e81cd9
 
 ## Perl configuration

@@ -12,7 +12,8 @@ to the match position, and a loop reading offsets on every match is
 quadratic over the string.  `pos()` converts through the SV's UTF-8
 position cache instead, which works fine.
 
-Write-up in Japanese:
+Write-up in Japanese, from 2014 — twelve years and the behaviour is
+unchanged:
 [Perl の @- と @+ のペナルティが高すぎる](https://qiita.com/kaz-utashiro/items/2facc87ea9ba25e81cd9).
 
 Related: [perl-substr-bench](https://github.com/kaz-utashiro/perl-substr-bench)
