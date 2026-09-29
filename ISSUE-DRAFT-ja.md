@@ -103,6 +103,9 @@ if (RX_MATCH_UTF8(rx)) {
 で素朴にマッチ位置を集めるコードは、理由の分からないまま二次関数的
 なコストを払うことになります。
 
+同じ測定内容を日本語でも書いています：
+https://qiita.com/kaz-utashiro/items/2facc87ea9ba25e81cd9
+
 ## Perl configuration（環境）
 
 ubuntu-latest + shogo82148/actions-setup-perl のビルド

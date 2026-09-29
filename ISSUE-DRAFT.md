@@ -106,6 +106,9 @@ because of this, and has done so for over a decade.  Any code which
 naively collects match positions with `@-`/`@+` over a large
 multibyte string pays a quadratic cost without any indication of why.
 
+I also wrote this up in Japanese, with the same measurements:
+https://qiita.com/kaz-utashiro/items/2facc87ea9ba25e81cd9
+
 ## Perl configuration
 
 Measured on ubuntu-latest with shogo82148/actions-setup-perl builds
