@@ -92,7 +92,7 @@ path is not.
 A possible fix is to keep a small (byte offset, char offset) cache in
 the regexp structure, reset when a new match fills `subbeg`, and walk
 incrementally from the cached position.  Typical access patterns
-($-[0] then $+[0], then the next match's offsets, in increasing
+(`$-[0]` then `$+[0]`, then the next match's offsets, in increasing
 order) would then cost amortized O(length) for a whole match loop,
 the same as the pos() idiom.  Since that adds a field to the regexp
 structure, it would be a change for the current (5.45) development
