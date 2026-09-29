@@ -18,23 +18,27 @@ Related: [perl-substr-bench](https://github.com/kaz-utashiro/perl-substr-bench)
 ## Results
 
 12k matches on a string mixing multibyte and ASCII characters,
-ubuntu-latest
-([full run](https://github.com/kaz-utashiro/perl-matchvars-bench/actions/runs/28723361695),
-[blead run](https://github.com/kaz-utashiro/perl-matchvars-bench/actions/runs/28723362174);
+ubuntu-latest, measured 2026-09-29
+([full run](https://github.com/kaz-utashiro/perl-matchvars-bench/actions/runs/36517817055),
+[blead run](https://github.com/kaz-utashiro/perl-matchvars-bench/actions/runs/36517823582);
 see [bench.yml](.github/workflows/bench.yml)):
 
 | perl | `@-`/`@+` (sec) | pos() (sec) | ratio |
 |---|---:|---:|---:|
-| 5.12.5 | 1.45 | 0.153 | 9x |
-| 5.14.4 – 5.16.3 | 2.9 – 3.3 | 0.15 | 20x |
-| 5.18.4 | 6.5 | 0.068 | 95x |
-| 5.20.3 – 5.36.3 | 5.7 – 8.4 | 0.003 | ~2000x |
-| 5.38.0 – 5.42.2 | 0.46 – 0.59 | 0.003 | 150 – 190x |
-| blead 2026-07-05 (built from source) | 0.59 | 0.003 | 222x |
+| 5.12.5 | 1.64 | 0.159 | 10x |
+| 5.14.4 – 5.16.3 | 2.90 – 3.26 | 0.14 – 0.15 | ~20x |
+| 5.18.4 | 6.47 | 0.051 | ~130x |
+| 5.20.3 – 5.36.3 | 4.81 – 7.32 | 0.002 – 0.004 | ~2000x |
+| 5.38.5 – 5.44.0 | 0.52 – 0.59 | 0.003 | ~170x |
+| blead 5.45.4 (built from source) | 0.59 | 0.003 | 205x |
+
+The ratios in the 5.20–5.36 band are noisy because the `pos()` side
+is down at a few milliseconds; the `@-`/`@+` column is the meaningful
+one.
 
 The `pos()` path was also slow originally, was half-fixed in 5.18 and
 fully fixed in 5.20, and has been fast ever since.  The match
 variables never were fixed: they got slower in 5.14 and again in
 5.18, improved ~12x in 5.38 (presumably from `utf8_length()` itself
 getting faster, which changes the constant but not the complexity),
-and still cost O(offset) per read today.
+and still cost O(offset) per read today, 5.44.0 included.
